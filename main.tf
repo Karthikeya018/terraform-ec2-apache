@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
 resource "aws_security_group" "web_sg" {
@@ -29,7 +29,7 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_instance" "apache" {
   ami           = "ami-0c02fb55956c7d316"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   key_name      = "mykey"
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
