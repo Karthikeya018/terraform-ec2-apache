@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "web_sg" {
-  name = "apache-sg"
+  name_prefix = "apache-sg"
 
   ingress {
     from_port   = 80
