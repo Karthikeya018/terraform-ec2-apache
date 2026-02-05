@@ -1,20 +1,36 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-2"
 }
 
+# Get default VPC
+data "aws_vpc" "default" {
+  default = true
+}
+
+# Security Group in default VPC
 resource "aws_security_group" "web_sg" {
-  name_prefix = "apache-sg"
+  name_prefix = "apache-sg-"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -27,6 +43,7 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
+# EC2 Instance with Apache installed
 resource "aws_instance" "apache" {
   ami           = "ami-0ddda618e961f2270"
   instance_type = "t3.micro"
@@ -46,4 +63,8 @@ EOF
   tags = {
     Name = "Pipeline-Apache"
   }
+}
+
+output "public_ip" {
+  value = aws_instance.apache.public_ip
 }
