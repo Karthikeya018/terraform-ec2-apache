@@ -17,12 +17,6 @@ pipeline {
 
     stages {
 
-        stage('Clone GitHub Repo') {
-            steps {
-                git 'https://github.com/Karthikeya018/terraform-ec2-apache.git'
-            }
-        }
-
         stage('Terraform Init') {
             steps {
                 sh 'terraform init'
