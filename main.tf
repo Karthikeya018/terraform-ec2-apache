@@ -29,7 +29,6 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_instance" "apache" {
   ami           = "ami-0ddda618e961f2270"
-"
   instance_type = "t3.micro"
   key_name      = "mykey"
 
