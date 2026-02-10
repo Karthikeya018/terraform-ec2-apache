@@ -10,9 +10,9 @@ pipeline {
     }
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
+        AWS_ACCESS_KEY_ID      = credentials('aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
-        AWS_DEFAULT_REGION   = 'us-east-2'
+        AWS_DEFAULT_REGION    = 'us-east-2'
     }
 
     stages {
@@ -37,7 +37,7 @@ pipeline {
                 expression { params.ACTION == 'PROVISION' }
             }
             steps {
-                sh 'terraform apply -auto-approve'
+                sh 'terraform apply -replace="aws_instance.apache" -auto-approve'
             }
         }
 
